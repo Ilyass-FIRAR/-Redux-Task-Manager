@@ -7,24 +7,24 @@ const initialState = { tasks: [] };
 
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_TASK":
+    case "ADD":
       return {
         ...state,
         tasks: [...state.tasks, { id: Math.random(), text: action.payload, completed: false }],
       };
-    case "TOGGLE_TASK":
+    case "TOGGLE":
       return {
         ...state,
         tasks: state.tasks.map((task) =>
           task.id === action.payload ? { ...task, completed: !task.completed } : task
         ),
       };
-    case "REMOVE_TASK":
+    case "REMOVE":
       return {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
-    case "RESET_TASKS":
+    case "RESET":
       return initialState;
     default:
       return state;
@@ -42,7 +42,7 @@ const TaskManager = () => {
 
   const addTask = () => {
     if (taskInput.trim() === "") return;
-    dispatch({ type: "ADD_TASK", payload: taskInput });
+    dispatch({ type: "ADD", payload: taskInput });
     setTaskInput("");
   };
 
@@ -63,17 +63,17 @@ const TaskManager = () => {
           <li key={task.id} className={task.completed ? "completed" : ""}>
             {task.text}
             <div className="buttons">
-              <button onClick={() => dispatch({ type: "TOGGLE_TASK", payload: task.id })}>
+              <button onClick={() => dispatch({ type: "TOGGLE", payload: task.id })}>
                 ✅
               </button>
-              <button onClick={() => dispatch({ type: "REMOVE_TASK", payload: task.id })}>
+              <button onClick={() => dispatch({ type: "REMOVE", payload: task.id })}>
                 ❌
               </button>
             </div>
           </li>
         ))}
       </ul>
-      <button className="reset-btn" onClick={() => dispatch({ type: "RESET_TASKS" })}>
+      <button className="reset-btn" onClick={() => dispatch({ type: "RESET" })}>
         🔄 Reset Tasks
       </button>
     </div>
